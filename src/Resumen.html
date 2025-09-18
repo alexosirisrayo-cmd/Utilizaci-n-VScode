@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Resumen completo — ¿Cómo funciona un PC y qué hace cada pieza?</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Resumen completo y ejecutable en el navegador sobre los componentes de un PC, su función y el flujo de datos." />
+  <style>
+    :root{
+      --bg:#0f1220;
+      --panel:#171a2b;
+      --ink:#e9ecf1;
+      --muted:#aab1c3;
+      --accent:#7aa2ff;
+      --accent-2:#41d6c3;
+      --border:#242845;
+      --code:#0c1022;
+      --ok:#36c275;
+      --warn:#f5a524;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      color:var(--ink);
+      background:radial-gradient(1200px 800px at 20% -10%, #1b2040 0%, var(--bg) 45%) fixed;
+      line-height:1.55;
+    }
+    header{
+      position:sticky; top:0; z-index:10;
+      background:linear-gradient(180deg, rgba(15,18,32,.95), rgba(15,18,32,.75));
+      backdrop-filter: blur(6px);
+      border-bottom:1px solid var(--border);
+    }
+    .wrap{max-width:1100px; margin:0 auto; padding:18px 20px;}
+    h1{margin:0; font-size:1.6rem; letter-spacing:.2px}
+    .sub{color:var(--muted); font-size:.95rem}
+    main{max-width:1100px; margin:22px auto; padding:0 20px 80px}
+    .grid{
+      display:grid; grid-template-columns: 320px 1fr; gap:22px;
+    }
+    @media (max-width: 960px){ .grid{ grid-template-columns: 1fr; } nav{ position:static } }
+    nav{
+      position:sticky; top:72px; align-self:start;
+      background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:14px;
+    }
+    nav h3{margin:6px 0 10px; font-size:1rem; color:var(--muted); font-weight:600}
+    nav a{
+      display:block; padding:8px 10px; margin:4px 0; color:var(--ink); text-decoration:none;
+      border-radius:8px; border:1px solid transparent;
+    }
+    nav a:hover{ background:#1d2242; border-color:#2a2f57; color:var(--accent) }
+    section{
+      background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:18px 18px 8px; margin-bottom:18px;
+    }
+    h2{margin:4px 0 8px; font-size:1.35rem}
+    h3{margin:14px 0 8px; font-size:1.05rem; color:var(--accent)}
+    p{margin:8px 0 12px}
+    ul{margin:8px 0 16px; padding-left:18px}
+    li{margin:6px 0}
+    .lead{color:var(--muted)}
+    .pill{
+      display:inline-block; padding:4px 10px; border:1px solid var(--border); border-radius:999px; color:var(--accent-2); font-size:.85rem; margin:2px 6px 10px 0;
+      background: #12162a;
+    }
+    .kbd{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; background:var(--code); border:1px solid #1a1f3c; padding:2px 6px; border-radius:6px}
+    pre{
+      background:var(--code); color:#dbe2ff; border:1px solid #1a1f3c; border-radius:10px; padding:12px; overflow:auto;
+    }
+    .bar{
+      display:flex; gap:8px; flex-wrap:wrap; margin:10px 0 18px;
+    }
+    .btn{
+      background:#1b2145; color:var(--ink); border:1px solid #2a2f57; padding:8px 12px; border-radius:8px; cursor:pointer;
+    }
+    .btn:hover{ border-color:#3b4180; color:var(--accent) }
+    .badge{ font-size:.8rem; color:#cdd4ee }
+    .callout{
+      border-left:4px solid var(--accent); padding:10px 12px; background:#12162a; border-radius:10px; border:1px solid #1d2140;
+    }
+    footer{
+      max-width:1100px; margin:0 auto 40px; padding:0 20px; color:var(--muted); text-align:center;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>Resumen completo — ¿Cómo funciona un PC y qué hace cada pieza?</h1>
+      <div class="sub">Versión navegable para abrir en tu editor (VS Code) y consultar en el navegador</div>
+    </div>
+  </header>
+
+  <main>
+    <div class="grid">
+      <nav aria-label="Índice">
+        <h3>Índice</h3>
+        <a href="#vision-general">Visión general</a>
+        <a href="#procesador">Procesador (CPU)</a>
+        <a href="#almacenamiento">Almacenamiento (SSD M.2)</a>
+        <a href="#ram">Memoria RAM</a>
+        <a href="#placa-base">Placa base y chipset (PCH)</a>
+        <a href="#fuente">Fuente de alimentación (PSU)</a>
+        <a href="#refrigeracion">Refrigeración y pasta térmica</a>
+        <a href="#gpu">Tarjeta gráfica (GPU) y VRAM</a>
+        <a href="#perifericos">Periféricos, USB, red y sonido</a>
+        <a href="#bios">BIOS/UEFI y pila</a>
+        <a href="#caja">Caja y flujo de aire</a>
+        <a href="#flujo-datos">Flujo de datos simplificado</a>
+        <a href="#diagrama">Diagrama de bloques en texto</a>
+        <div style="margin-top:10px; border-top:1px dashed #2a2f57; padding-top:10px">
+          <button class="btn" onclick="window.print()">Imprimir / Guardar en PDF</button>
+        </div>
+      </nav>
+
+      <div>
+        <section id="vision-general">
+          <h2>Visión general</h2>
+          <p class="lead">
+            Un PC es un ecosistema de procesadores especializados (CPU, GPU, controladores del SSD, RAM, PCH, audio, red) interconectados por la placa base,
+            alimentados por la fuente y coordinados para ejecutar programas y mostrar resultados en pantalla.
+          </p>
+          <div class="bar">
+            <span class="pill">CPU</span>
+            <span class="pill">RAM</span>
+            <span class="pill">SSD</span>
+            <span class="pill">GPU + VRAM</span>
+            <span class="pill">PCH/Chipset</span>
+            <span class="pill">PSU</span>
+            <span class="pill">Refrigeración</span>
+            <span class="pill">Sonido · Red</span>
+            <span class="pill">Caja</span>
+          </div>
+          <div class="callout">
+            Consejo: usa el índice de la izquierda para navegar por secciones. Pulsa “Imprimir / Guardar en PDF” para exportar.
+          </div>
+        </section>
+
+        <section id="procesador">
+          <h2>Procesador (CPU)</h2>
+          <ul>
+            <li><b>Rol principal:</b> ejecuta la mayoría de operaciones; es la “calculadora” general del sistema.</li>
+            <li><b>Estructura:</b> chip de silicio con millones de transistores y <i>memoria caché</i> interna.</li>
+            <li><b>Tareas típicas:</b> ejecutar sistema operativo, lógica de apps/juegos, cargar webs, coordinar periféricos.</li>
+            <li><b>Necesidades:</b> acceso rápido a datos (RAM, caché) y voltaje estable (VRM de la placa).</li>
+          </ul>
+        </section>
+
+        <section id="almacenamiento">
+          <h2>Almacenamiento (SSD M.2)</h2>
+          <ul>
+            <li><b>Función:</b> guarda de forma persistente sistema, programas y archivos (ceros y unos).</li>
+            <li><b>Controlador:</b> un coprocesador del SSD organiza lectura/escritura y el espacio disponible.</li>
+            <li><b>Rendimiento:</b> muy rápido, pero más lento que la RAM; por eso los datos activos se pasan a RAM.</li>
+          </ul>
+        </section>
+
+        <section id="ram">
+          <h2>Memoria RAM</h2>
+          <ul>
+            <li><b>Función:</b> memoria de trabajo de alta velocidad para datos en uso inmediato.</li>
+            <li><b>Volatilidad:</b> se borra al apagar; por eso coexistimos con SSD/HDD para persistencia.</li>
+            <li><b>Capacidad vs. coste:</b> ampliar RAM es más caro por GB que el almacenamiento masivo.</li>
+            <li><b>Carga en RAM:</b> lo que el programa necesita en tiempo real (decidido por el software y el SO).</li>
+          </ul>
+        </section>
+
+        <section id="placa-base">
+          <h2>Placa base y chipset (PCH)</h2>
+          <ul>
+            <li><b>Interconexión:</b> autopistas que unen CPU, RAM, SSD, GPU y periféricos.</li>
+            <li><b>Socket y slots:</b> CPU en el socket; RAM en sus bancos con buses dedicados de alta velocidad.</li>
+            <li><b>PCI Express:</b> líneas de alta velocidad (GPU y algunos SSD) con acceso directo a CPU.</li>
+            <li><b>VRM:</b> módulo regulador de voltaje; entrega voltajes precisos a CPU y otros chips.</li>
+            <li><b>PCH/Chipset:</b> coprocesador que gestiona USB, red, audio y otros periféricos hacia la CPU.</li>
+          </ul>
+        </section>
+
+        <section id="fuente">
+          <h2>Fuente de alimentación (PSU)</h2>
+          <ul>
+            <li><b>Conversión:</b> de 230 V AC (50 Hz) a corriente continua con raíles de 12 V, 5 V y 3,3 V.</li>
+            <li><b>Distribución:</b> ATX y EPS alimentan placa y CPU; el VRM adapta a niveles finos (p.ej., ~1.x V CPU).</li>
+            <li><b>Objetivo:</b> estabilidad eléctrica para evitar fallos, estrangulamientos o daños.</li>
+          </ul>
+        </section>
+
+        <section id="refrigeracion">
+          <h2>Refrigeración y pasta térmica</h2>
+          <ul>
+            <li><b>Origen del calor:</b> la conmutación y resistencias internas disipan energía en forma de calor.</li>
+            <li><b>Soluciones:</b> disipadores por aire y AIO líquidas con radiador y ventiladores.</li>
+            <li><b>Pasta térmica:</b> rellena microimperfecciones entre IHS y bloque para maximizar contacto térmico.</li>
+          </ul>
+        </section>
+
+        <section id="gpu">
+          <h2>Tarjeta gráfica (GPU) y VRAM</h2>
+          <ul>
+            <li><b>Rol:</b> procesador paralelo especializado en generar imágenes (matrices de píxeles) y ciertos cálculos.</li>
+            <li><b>Tipos:</b> integrada en CPU o dedicada (en tarjeta con su propio VRM, VRAM y disipación).</li>
+            <li><b>Conexión:</b> PCIe directo a CPU para baja latencia y alto ancho de banda.</li>
+            <li><b>Flujo típico:</b> CPU prepara datos en RAM → los envía a VRAM → GPU renderiza → sale por HDMI/DP al monitor.</li>
+          </ul>
+        </section>
+
+        <section id="perifericos">
+          <h2>Periféricos, USB, red y sonido</h2>
+          <ul>
+            <li><b>USB/entrada:</b> teclado/ratón llegan al PCH, que notifica a la CPU; el SO enruta a la app activa.</li>
+            <li><b>Red:</b> la controladora interpreta la señal de red y la pasa al PCH/CPU para el juego/servicio correspondiente.</li>
+            <li><b>Audio:</b> chip de sonido convierte entre digital y analógico; blindaje y ubicación para reducir interferencias.</li>
+          </ul>
+        </section>
+
+        <section id="bios">
+          <h2>BIOS/UEFI y pila</h2>
+          <ul>
+            <li><b>Arranque:</b> comprobaciones iniciales (POST), detección de hardware y handoff al cargador del sistema.</li>
+            <li><b>Pila:</b> mantiene hora/fecha y ciertos parámetros cuando el PC está desconectado.</li>
+          </ul>
+        </section>
+
+        <section id="caja">
+          <h2>Caja y flujo de aire</h2>
+          <ul>
+            <li><b>Protección:</b> estructura para fijar componentes, reducir polvo y riesgos físicos.</li>
+            <li><b>Ventilación:</b> entradas/salidas de aire para mantener temperaturas seguras.</li>
+            <li><b>Front panel:</b> puertos frontales USB conectados a headers de la placa.</li>
+          </ul>
+        </section>
+
+        <section id="flujo-datos">
+          <h2>Flujo de datos simplificado</h2>
+          <ol>
+            <li><b>Carga:</b> CPU solicita datos → se leen del SSD → se copian a RAM.</li>
+            <li><b>Ejecución:</b> CPU procesa instrucciones; resultados intermedios en RAM o caché.</li>
+            <li><b>Gráficos:</b> para mostrar, CPU manda datos e instrucciones a GPU → GPU renderiza en VRAM → salida al monitor.</li>
+            <li><b>Entrada usuario:</b> teclado/ratón por USB → PCH → CPU → app correspondiente.</li>
+            <li><b>Red/audio:</b> controladoras decodifican señales → PCH/CPU → software de red/sonido.</li>
+            <li><b>Persistencia:</b> estados finales y archivos vuelven al SSD cuando es necesario.</li>
+          </ol>
+        </section>
+
+        <section id="diagrama">
+          <h2>Diagrama de bloques en texto</h2>
+          <pre>
+[ FUENTE (PSU) ] --12V/5V/3.3V--> [ PLACA BASE ]
+                                   |-- VRM CPU --> [ CPU ] <---- BUS RAM ---- [ RAM ]
+                                   |                |  \
+                                   |                |   \-- PCIe (directo) --> [ GPU ] --(HDMI/DP)--> [ MONITOR ]
+                                   |                |
+                                   |-- PCH/CHIPSET -+-- USB  --> [ Teclado/Ratón ]
+                                   |                +-- RED  --> [ Controladora LAN/WiFi ]
+                                   |                +-- AUDIO --> [ DAC/ADC, Jack/Altavoces ]
+                                   |
+                                   +-- M.2/PCIe ----> [ SSD ]  (controlador SSD interno)
+          </pre>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    Abre este archivo con tu navegador o arrástralo a una ventana de VS Code con Live Server. Pulsa “Imprimir / Guardar en PDF” si quieres exportarlo.
+  </footer>
+
+  <script>
+    // Resalta en el índice la sección visible (intersección simple)
+    const links = [...document.querySelectorAll('nav a')];
+    const map = new Map(links.map(a => [a.getAttribute('href'), a]));
+    const obs = new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        const id = '#'+(e.target.id || '');
+        const link = map.get(id);
+        if(!link) return;
+        if(e.isIntersecting){
+          links.forEach(l=>l.style.color='');
+          link.style.color = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#7aa2ff';
+        }
+      });
+    },{rootMargin:'-40% 0px -50% 0px', threshold:0.01});
+    document.querySelectorAll('main section').forEach(s=>obs.observe(s));
+  </script>
+</body>
+</html>
